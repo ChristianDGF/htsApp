@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <title>KLK WAWA ACERO MI PAPA</title>
+    <title>Congelados Express</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="img/HTS-10.png" />
 </head>
 <body class="bg-gray-50">
 
 <!-- NAVBAR -->
 <nav class="bg-white shadow-md border-gray-200 fixed w-full top-0 left-0 z-50">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="#inicio" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="img/HTS-10.png" class="h-8" alt="HTS Logo" />
         </a>
 
         <button data-collapse-toggle="navbar-default" type="button"
                 class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg
-               md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                   md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200
+                   transition-colors duration-200"
                 aria-controls="navbar-default" aria-expanded="false">
             <span class="sr-only">Open main menu</span>
             <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
@@ -27,69 +29,205 @@
 
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg
-                   bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
-                <li><a href="#" class="block py-2 px-3 text-[#c1272d] hover:text-red-600 md:p-0">Home</a></li>
-                <li><a href="#" class="block py-2 px-3 text-[#c1272d] hover:text-red-600 md:p-0">About</a></li>
-                <li><a href="#" class="block py-2 px-3 text-[#c1272d] hover:text-red-600 md:p-0">Services</a></li>
-                <li><a href="#" class="block py-2 px-3 text-[#c1272d] hover:text-red-600 md:p-0">Pricing</a></li>
-                <li><a href="#" class="block py-2 px-3 text-[#c1272d] hover:text-red-600 md:p-0">Contact</a></li>
+                 bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
+                <li><a href="#inicio"      class="block py-2 px-3 text-[#c1272d] md:p-0 hover:text-red-600 transition-colors duration-300">Inicio</a></li>
+                <li><a href="#monitoreo"   class="block py-2 px-3 text-[#c1272d] md:p-0 hover:text-red-600 transition-colors duration-300">Monitoreo</a></li>
+                <li><a href="#servicios"   class="block py-2 px-3 text-[#c1272d] md:p-0 hover:text-red-600 transition-colors duration-300">Servicios</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
 <!-- HERO SECTION -->
-<section class="pt-28 pb-20 bg-gray-50">
+<section id="inicio" class="pt-28 pb-20 bg-gray-50">
     <div class="max-w-screen-xl mx-auto flex flex-col-reverse md:flex-row items-center px-6 md:px-12 gap-10">
 
         <!-- TEXT SIDE -->
         <div class="flex-1 text-center md:text-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-[#c1272d] mb-4">
-                Estado de Servicios
-            </h1>
-            <h2 class="text-3xl text-gray-700 mb-3">
-                Congelados Express
-            </h2>
-            <p class="text-gray-600 mb-6">
-                Revisa en tiempo real el estado de tus servicios contratados con HTS
-            </p>
-            <a href="#contacto"
-               class="inline-block bg-[#c1272d] text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-red-700 transition">
-                Ir al sitio principal
+            <h1 class="text-4xl md:text-5xl font-bold text-[#c1272d] mb-4">Estado de Servicios</h1>
+            <h2 class="text-3xl text-gray-700 mb-3">Congelados Express</h2>
+            <p class="text-gray-600 mb-6">Revisa en tiempo real el estado de tus servicios contratados con HTS</p>
+
+            <!-- Botón con transición limpia -->
+            <a href="#monitoreo"
+               class="inline-block bg-[#c1272d] text-white px-6 py-3 rounded-md text-lg font-semibold
+                transition-all duration-300 ease-out hover:bg-red-700 hover:shadow-md hover:-translate-y-0.5
+                focus:outline-none focus:ring-2 focus:ring-[#c1272d]/30 active:translate-y-0">
+                Ver monitoreo
             </a>
         </div>
 
         <!-- IMAGE SIDE -->
         <div class="flex-1">
-            <img src="img/img1.jpg"
-                 alt="Equipo de trabajo" class="w-full rounded-lg shadow-lg">
+            <img src="img/img1.jpg" alt="Equipo de trabajo" class="w-full rounded-lg shadow-lg">
         </div>
     </div>
 </section>
 
-<!-- LOGOS SECTION (new) -->
+<!-- LOGOS SECTION -->
 <section class="bg-gradient-to-b from-white to-gray-100 py-16">
     <div class="max-w-screen-xl mx-auto px-6 md:px-12">
-        <div class="flex flex-col md:flex-row items-center justify-center gap-10">
-            <!-- Logo 1 -->
+        <div class="flex flex-col md:flex-row items-center justify-center gap-14 md:gap-24 lg:gap-32">
             <div class="flex justify-center">
-                <img src="img/img2.png" alt="Empresa 1" class="h-24 md:h-28 object-contain">
+                <img src="img/img2.png" alt="Empresa 1" class="h-[180px] md:h-[200px] w-auto object-contain" />
             </div>
-            <!-- Logo 2 -->
             <div class="flex justify-center">
-                <img src="img/img3.jpg" alt="Empresa 2" class="h-24 md:h-28 object-contain">
+                <img src="img/img3.jpg" alt="Empresa 2" class="h-[180px] md:h-[200px] w-auto object-contain" />
             </div>
         </div>
     </div>
 </section>
 
-<!-- JS for mobile menu -->
+<!-- SITE24x7 STATUS SECTION -->
+<section id="monitoreo" class="bg-white py-16">
+    <div class="max-w-screen-xl mx-auto px-6 md:px-12">
+        <h3 class="text-2xl md:text-3xl font-semibold text-gray-800 text-center">Estado de Servicios</h3>
+        <p class="text-gray-600 text-center mt-2 mb-10">Monitoreo en tiempo real de nuestros servidores y endpoints críticos.</p>
+
+        <div class="space-y-10">
+            <!-- Card / Iframe 1 -->
+            <div class="bg-gray-50 border border-gray-200 rounded-xl shadow-md p-6">
+                <h4 class="text-[#c1272d] font-semibold mb-4">Servidor Principal</h4>
+                <div class="w-full h-[720px] md:h-[840px] rounded-lg overflow-hidden shadow">
+                    <iframe src="SRC_AQUI_MONITOR_1" title="Site24x7 - Servidor Principal"
+                            class="w-full h-full" frameborder="0" loading="lazy" referrerpolicy="no-referrer" allowfullscreen></iframe>
+                </div>
+            </div>
+            <!-- Card / Iframe 2 -->
+            <div class="bg-gray-50 border border-gray-200 rounded-xl shadow-md p-6">
+                <h4 class="text-[#c1272d] font-semibold mb-4">API / Backend</h4>
+                <div class="w-full h-[720px] md:h-[840px] rounded-lg overflow-hidden shadow">
+                    <iframe src="SRC_AQUI_MONITOR_2" title="Site24x7 - API Backend"
+                            class="w-full h-full" frameborder="0" loading="lazy" referrerpolicy="no-referrer" allowfullscreen></iframe>
+                </div>
+            </div>
+            <!-- Card / Iframe 3 -->
+            <div class="bg-gray-50 border border-gray-200 rounded-xl shadow-md p-6">
+                <h4 class="text-[#c1272d] font-semibold mb-4">Base de Datos</h4>
+                <div class="w-full h-[720px] md:h-[840px] rounded-lg overflow-hidden shadow">
+                    <iframe src="SRC_AQUI_MONITOR_3" title="Site24x7 - Base de Datos"
+                            class="w-full h-full" frameborder="0" loading="lazy" referrerpolicy="no-referrer" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-6">
+            Si los iframes necesitan más/menos altura, ajusta <code>h-[720px]</code> y <code>md:h-[840px]</code>.
+        </p>
+    </div>
+</section>
+
+<!-- ACTION CARDS SECTION (Servicios) -->
+<section id="servicios" class="bg-gray-50 py-16">
+    <div class="max-w-screen-xl mx-auto px-6 md:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-stretch">
+
+            <!-- Card 1 -->
+            <div class="bg-rose-50 border border-rose-200 rounded-2xl shadow p-6 h-full
+                  flex flex-col items-center min-h-[190px] md:min-h-[220px] lg:min-h-[250px]">
+                <h3 class="text-xl font-semibold text-[#c1272d] text-center mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                    Servicios
+                </h3>
+                <ul class="w-full max-w-xs md:max-w-sm text-gray-700 space-y-3 text-left">
+                    <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#c1272d]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>Visita técnica</li>
+                    <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#c1272d]" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5a2 2 0 012-2h10a2 2 0 012 2v9a2 2 0 01-2 2H9l-4 4v-4H5a2 2 0 01-2-2V5z"/></svg>Soporte remoto</li>
+                    <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#c1272d]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l7 3v6c0 5-3.5 9.74-7 11-3.5-1.26-7-6-7-11V5l7-3z"/></svg>Servicios de seguridad</li>
+                    <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#c1272d]" viewBox="0 0 24 24" fill="currentColor"><path d="M11.3 1.046a1 1 0 011.4 0l2.25 2.25a1 1 0 010 1.415l-1.02 1.02 5.59 5.59a2 2 0 010 2.829l-2.122 2.121a2 2 0 01-2.829 0l-5.59-5.59-1.02 1.02a1 1 0 01-1.415 0L1.704 9.3a1 1 0 010-1.415l2.25-2.25a1 1 0 011.415 0l.763.764 4.168-4.168z"/></svg>Equipos en taller</li>
+                </ul>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-emerald-500 text-white rounded-2xl shadow-lg p-6 h-full
+                  flex flex-col items-center justify-center text-center gap-6
+                  min-h-[190px] md:min-h-[220px] lg:min-h-[250px]">
+                <div>
+                    <h3 class="text-xl font-bold">¿Necesitas ayuda?</h3>
+                    <p class="opacity-90 mt-1">Escríbenos:</p>
+                </div>
+
+                <a href="https://wa.me/18090000000?text=Hola%20HTS%2C%20necesito%20soporte" target="_blank" rel="noopener"
+                   class="inline-flex items-center justify-center gap-3 w-full max-w-xs bg-white text-emerald-600
+                  font-semibold px-5 py-3 rounded-lg shadow transition-all duration-300 ease-out
+                  hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-emerald-200 active:translate-y-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 32 32" fill="currentColor"><path d="M19.11 17.34c-.28-.14-1.63-.8-1.88-.9-.25-.1-.43-.14-.6.14-.17.28-.68.9-.83 1.08-.15.18-.31.2-.59.07-.28-.14-1.17-.43-2.23-1.37-.82-.73-1.38-1.63-1.54-1.9-.16-.28-.02-.43.12-.57.12-.12.28-.31.42-.46.14-.15.18-.25.28-.42.1-.17.05-.32-.02-.46-.07-.14-.6-1.44-.82-1.98-.22-.53-.44-.46-.6-.46-.15 0-.32-.02-.49-.02-.17 0-.46.07-.7.32-.24.25-.92.9-.92 2.2 0 1.3.94 2.55 1.07 2.73.14.18 1.85 2.83 4.48 3.97.63.27 1.12.43 1.5.55.63.2 1.2.17 1.65.1.5-.08 1.63-.66 1.86-1.3.23-.64.23-1.2.16-1.31-.07-.11-.25-.18-.53-.32zM16.03 3C9.95 3 5 7.95 5 14.03c0 1.94.51 3.76 1.4 5.34L5 29l9.86-1.33a11.03 11.03 0 005.17 1.3C26.05 29 31 24.05 31 17.97S26.05 3 19.97 3h-3.94z"/></svg>
+                    WhatsApp
+                </a>
+
+                <p class="text-sm opacity-90">Oficina: <span class="font-semibold">809-226-1628</span></p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-rose-50 border border-rose-300 rounded-2xl shadow p-6 h-full
+                  flex flex-col items-center justify-center text-center gap-6
+                  min-h-[190px] md:min-h-[220px] lg:min-h-[250px]">
+                <div class="flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#c1272d]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l7 3v6c0 5-3.5 9.74-7 11-3.5-1.26-7-6-7-11V5l7-3z"/></svg>
+                    <h3 class="text-xl font-semibold text-[#c1272d]">FortiNet</h3>
+                </div>
+
+                <p class="text-gray-700 max-w-xs">Reporte de eventos de seguridad y firewall.</p>
+
+                <a href="#"
+                   class="inline-flex items-center justify-center gap-2 w-full max-w-xs bg-[#c1272d] text-white
+                  px-5 py-3 rounded-lg font-semibold transition-all duration-300 ease-out
+                  hover:bg-red-700 hover:shadow-md hover:-translate-y-0.5
+                  focus:outline-none focus:ring-2 focus:ring-[#c1272d]/30 active:translate-y-0">
+                    Ver reporte
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-white border-t-4" style="border-color:#c1272d;">
+    <div class="max-w-screen-xl mx-auto px-6 md:px-12 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="col-span-1">
+                <div class="flex items-center gap-3">
+                    <img src="img/HTS-10.png" alt="HTS Logo" class="h-9">
+                </div>
+                <p class="text-gray-600 mt-4">Consultoría y soporte IT. Monitoreo, seguridad y soluciones para tu empresa.</p>
+            </div>
+            <div>
+                <h4 class="text-[#c1272d] font-semibold mb-4">Enlaces</h4>
+                <ul class="space-y-2 text-gray-700">
+                    <li><a href="#inicio" class="hover:text-[#c1272d] transition-colors duration-300">Inicio</a></li>
+                    <li><a href="#servicios" class="hover:text-[#c1272d] transition-colors duration-300">Servicios</a></li>
+                    <li><a href="#monitoreo" class="hover:text-[#c1272d] transition-colors duration-300">Estado de servicios</a></li>
+                    <li><a href="#contacto" class="hover:text-[#c1272d] transition-colors duration-300">Contacto</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[#c1272d] font-semibold mb-4">Contacto</h4>
+                <ul class="space-y-2 text-gray-700">
+                    <li>Oficina: <span class="font-medium">809-226-1628</span></li>
+                    <li>Email: <a href="mailto:info@hts.com" class="hover:text-[#c1272d] transition-colors duration-300">info@hts.com</a></li>
+                    <li>Dirección: Santo Domingo, RD</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t mt-10 pt-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-600">
+                <p>© <span id="year"></span> HTS. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
 <script>
+    // Año automático
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Toggle menú móvil
     const toggleBtn = document.querySelector('[data-collapse-toggle]');
     const navMenu = document.getElementById('navbar-default');
-    toggleBtn.addEventListener('click', () => {
-        navMenu.classList.toggle('hidden');
-    });
+    toggleBtn.addEventListener('click', () => navMenu.classList.toggle('hidden'));
 </script>
 
 </body>

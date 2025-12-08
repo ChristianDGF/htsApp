@@ -1,0 +1,257 @@
+<!-- templates/empresas.html -->
+<!DOCTYPE html>
+<html lang="es" th:lang="${#locale.language}">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Empresas</title>
+
+    <!-- Tailwind (demo) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- CSRF: solo si existe en el request, para evitar TemplateInputException -->
+    <meta th:if="${_csrf != null}" name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:if="${_csrf != null}" name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body class="bg-gray-50 text-gray-900">
+<header class="max-w-6xl mx-auto px-4 py-6">
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold">Gestión de Empresas</h1>
+        <button id="btnOpenCreate"
+                class="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 shadow">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/>
+            </svg>
+            Nueva empresa
+        </button>
+    </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4">
+    <div id="alertBox" class="hidden mb-4 rounded-lg p-3 text-sm"></div>
+
+    <div class="bg-white rounded-2xl shadow">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider">ID</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider">Nombre</th>
+                    <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider">Acciones</th>
+                </tr>
+                </thead>
+                <tbody id="rows" class="divide-y divide-gray-200">
+                <tr th:each="e : ${empresas}" th:id="${'row-' + e.id}">
+                    <td class="px-4 py-3 font-mono text-sm" th:text="${e.id}">1</td>
+                    <td class="px-4 py-3" th:text="${e.nombre}">Empresa SRL</td>
+                    <td class="px-4 py-3">
+                        <div class="flex items-center gap-2 justify-end">
+                            <button class="btn-edit inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border text-gray-700 hover:bg-gray-50"
+                                    th:attr="data-id=${e.id},data-nombre=${e.nombre}">
+                                Editar
+                            </button>
+                            <button class="btn-delete inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700"
+                                    th:attr="data-id=${e.id}">
+                                Eliminar
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<!-- Modal -->
+<div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+    <div class="absolute inset-0 bg-black/40" aria-hidden="true"></div>
+    <div class="relative bg-white w-full max-w-lg mx-4 rounded-2xl shadow-xl">
+        <div class="flex items-center justify-between px-5 py-4 border-b">
+            <h2 id="modalTitle" class="text-lg font-semibold">Nueva empresa</h2>
+            <button id="btnCloseModal" class="text-gray-500 hover:text-gray-800 text-xl leading-none">&times;</button>
+        </div>
+
+        <form id="formEmpresa" class="px-5 py-4 space-y-4">
+            <input type="hidden" id="empresaId" name="id"/>
+            <div>
+                <label class="block text-sm font-medium mb-1" for="nombre">Nombre de la empresa</label>
+                <input id="nombre" name="nombre" type="text" required
+                       class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500"/>
+            </div>
+            <div class="flex items-center justify-end gap-2 pt-2">
+                <button type="button" id="btnCancel" class="px-4 py-2 rounded-xl border hover:bg-gray-50">Cancelar</button>
+                <button type="submit" id="btnSubmit" class="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700">
+                    Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const $ = (sel, el = document) => el.querySelector(sel);
+    const rowsTbody   = $('#rows');
+    const modal       = $('#modal');
+    const modalTitle  = $('#modalTitle');
+    const form        = $('#formEmpresa');
+    const empresaId   = $('#empresaId');
+    const nombreInp   = $('#nombre');
+    const btnSubmit   = $('#btnSubmit');
+    const alertBox    = $('#alertBox');
+
+    // Lee CSRF si existe; si no, sigue funcionando (Spring Security puede tener CSRF off para API).
+    const csrfToken  = document.querySelector('meta[name="_csrf"]')?.content || '';
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content || 'X-CSRF-TOKEN';
+
+    let mode = 'create';
+
+    function showAlert(message, type = 'success') {
+        alertBox.classList.remove('hidden');
+        const base = 'mb-4 rounded-lg p-3 text-sm';
+        alertBox.className = `${base} ${type === 'success'
+            ? 'bg-green-50 text-green-800 border border-green-200'
+            : 'bg-red-50 text-red-800 border border-red-200'}`;
+        alertBox.textContent = message;
+        setTimeout(() => alertBox.classList.add('hidden'), 3500);
+    }
+
+    function openModal(newMode = 'create', data = null) {
+        mode = newMode;
+        if (mode === 'create') {
+            modalTitle.textContent = 'Nueva empresa';
+            btnSubmit.textContent  = 'Crear';
+            empresaId.value = '';
+            nombreInp.value = '';
+        } else {
+            modalTitle.textContent = 'Editar empresa';
+            btnSubmit.textContent  = 'Guardar cambios';
+            empresaId.value = data.id || '';
+            nombreInp.value = data.nombre || '';
+        }
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => nombreInp.focus(), 50);
+    }
+
+    function closeModal() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    function rowTemplate(e) {
+        const safe = (v) => (v ?? '').toString();
+        return `
+      <tr id="row-${safe(e.id)}">
+        <td class="px-4 py-3 font-mono text-sm">${safe(e.id)}</td>
+        <td class="px-4 py-3">${safe(e.nombre)}</td>
+        <td class="px-4 py-3">
+          <div class="flex items-center gap-2 justify-end">
+            <button class="btn-edit inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border text-gray-700 hover:bg-gray-50"
+                    data-id="${safe(e.id)}" data-nombre="${safe(e.nombre)}">Editar</button>
+            <button class="btn-delete inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700"
+                    data-id="${safe(e.id)}">Eliminar</button>
+          </div>
+        </td>
+      </tr>
+    `;
+    }
+
+    function upsertRow(e) {
+        const existing = document.getElementById(`row-${e.id}`);
+        const html = rowTemplate(e);
+        if (existing) existing.outerHTML = html;
+        else rowsTbody.insertAdjacentHTML('beforeend', html);
+    }
+
+    // ==== RUTAS: AJUSTADAS AL PREFIJO /Empresa ====
+    async function crearEmpresa(fd) {
+        const res = await fetch('/Empresa', {
+            method: 'POST',
+            headers: csrfToken ? { [csrfHeader]: csrfToken } : {},
+            body: fd
+        });
+        if (!res.ok) throw new Error(await res.text().catch(()=>'Error al crear'));
+        return res.json();
+    }
+
+    async function editarEmpresa(id, fd) {
+        const res = await fetch(`/Empresa/${id}`, {
+            method: 'PUT',
+            headers: csrfToken ? { [csrfHeader]: csrfToken } : {},
+            body: fd
+        });
+        if (!res.ok) throw new Error(await res.text().catch(()=>'Error al editar'));
+        return res.json();
+    }
+
+    async function eliminarEmpresa(id) {
+        const res = await fetch(`/Empresa/${id}`, {
+            method: 'DELETE',
+            headers: csrfToken ? { [csrfHeader]: csrfToken } : {}
+        });
+        if (!res.ok) throw new Error(await res.text().catch(()=>'Error al eliminar'));
+        return res.text();
+    }
+
+    // Listeners
+    $('#btnOpenCreate').addEventListener('click', () => openModal('create'));
+    $('#btnCancel').addEventListener('click', closeModal);
+    $('#btnCloseModal').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+            const fd = new FormData(form);
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = (mode === 'create') ? 'Creando...' : 'Guardando...';
+
+            const data = (mode === 'create')
+                ? await crearEmpresa(fd)
+                : await editarEmpresa(empresaId.value, fd);
+
+            upsertRow(data);
+            showAlert(mode === 'create' ? 'Empresa creada.' : 'Empresa actualizada.');
+            closeModal();
+        } catch (err) {
+            showAlert(err.message || 'Ocurrió un error', 'error');
+        } finally {
+            btnSubmit.disabled = false;
+            btnSubmit.textContent = (mode === 'create') ? 'Crear' : 'Guardar cambios';
+        }
+    });
+
+    rowsTbody.addEventListener('click', async (e) => {
+        const editBtn = e.target.closest('.btn-edit');
+        const delBtn  = e.target.closest('.btn-delete');
+
+        if (editBtn) {
+            openModal('edit', { id: editBtn.dataset.id, nombre: editBtn.dataset.nombre });
+            return;
+        }
+
+        if (delBtn) {
+            const id = delBtn.dataset.id;
+            if (!id) return;
+            if (!confirm('¿Deseas eliminar esta empresa?')) return;
+
+            const original = delBtn.innerHTML;
+            delBtn.disabled = true;
+            delBtn.innerHTML = 'Eliminando...';
+
+            try {
+                await eliminarEmpresa(id);
+                document.getElementById(`row-${id}`)?.remove();
+                showAlert('Empresa eliminada.');
+            } catch (err) {
+                showAlert(err.message || 'No se pudo eliminar', 'error');
+            } finally {
+                delBtn.disabled = false;
+                delBtn.innerHTML = original;
+            }
+        }
+    });
+</script>
+</body>
+</html>

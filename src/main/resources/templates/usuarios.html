@@ -8,6 +8,10 @@
 
     <!-- Tailwind CDN (para demo); en prod compílalo localmente -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- CSRF (si está habilitado con Spring Security) -->
+    <meta th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:content="${_csrf.token}"/>
+    <meta th:if="${_csrf != null}" name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body class="bg-gray-50 text-gray-900">
 <header class="max-w-6xl mx-auto px-4 py-6">
@@ -42,11 +46,18 @@
                 <tr th:each="u : ${users}" th:id="${'row-' + u.id}">
                     <td class="px-4 py-3 font-mono text-sm" th:text="${u.id}">1</td>
                     <td class="px-4 py-3" th:text="${u.username}">correo@dominio.com</td>
-                    <td class="px-4 py-3" th:text="${u.empresa}">Empresa SRL</td>
+
+                    <!-- IMPORTANTE: imprime el NOMBRE de la empresa para evitar LazyInitialization -->
+                    <td class="px-4 py-3"
+                        th:text="${u.empresa != null ? u.empresa.nombre : ''}">Empresa SRL</td>
+
                     <td class="px-4 py-3">
                         <div class="flex items-center gap-2 justify-end">
                             <button class="btn-edit inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border text-gray-700 hover:bg-gray-50"
-                                    th:attr="data-id=${u.id},data-username=${u.username},data-empresa=${u.empresa}">
+                                    th:attr="data-id=${u.id},
+                                             data-username=${u.username},
+                                             data-empresa-id=${u.empresa != null ? u.empresa.id : 0},
+                                             data-empresa-nombre=${u.empresa != null ? u.empresa.nombre : ''}">
                                 Editar
                             </button>
                             <button class="btn-delete inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700"
@@ -82,10 +93,16 @@
                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500" />
             </div>
 
+            <!-- REEMPLAZADO: input texto por SELECT que envía empresaId -->
             <div>
-                <label class="block text-sm font-medium mb-1" for="empresa">Empresa</label>
-                <input id="empresa" name="empresa" type="text"
-                       class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500" />
+                <label class="block text-sm font-medium mb-1" for="empresaId">Empresa</label>
+                <select id="empresaId" name="empresaId"
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">— Sin empresa —</option>
+                    <option th:each="e : ${empresas}"
+                            th:value="${e.id}"
+                            th:text="${e.nombre}">Empresa X</option>
+                </select>
             </div>
 
             <div>
@@ -110,8 +127,10 @@
     const $ = (sel, el = document) => el.querySelector(sel);
     const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel));
 
-    const csrfToken  = document.querySelector('meta[name="_csrf"]')?.content || '';
-    const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content || 'X-CSRF-TOKEN';
+    // Lee CSRF si está presente
+    const csrfMeta   = document.querySelector('meta[name="_csrf"]') || document.querySelector('meta[name="_csrf.token"]');
+    const csrfToken  = csrfMeta ? csrfMeta.content : '';
+    const csrfHeader = (document.querySelector('meta[name="_csrf_header"]') || { content: 'X-CSRF-TOKEN' }).content;
 
     const modal       = $('#modal');
     const form        = $('#formUser');
@@ -120,7 +139,7 @@
     const pwdHint     = $('#pwdHint');
     const userId      = $('#userId');
     const usernameInp = $('#username');
-    const empresaInp  = $('#empresa');
+    const empresaSel  = document.getElementById('empresaId');
     const passwordInp = $('#password');
     const btnSubmit   = $('#btnSubmit');
     const alertBox    = $('#alertBox');
@@ -134,7 +153,6 @@
         alertBox.className = `${base} ${type === 'success'
             ? 'bg-green-50 text-green-800 border border-green-200'
             : 'bg-red-50 text-red-800 border border-red-200'}`;
-        // Ocultar después de unos segundos
         setTimeout(() => { alertBox.classList.add('hidden'); }, 3500);
     }
 
@@ -146,7 +164,7 @@
             pwdHint.textContent    = '(requerida al crear, opcional al editar)';
             userId.value = '';
             usernameInp.value = '';
-            empresaInp.value = '';
+            empresaSel.value = '';
             passwordInp.value = '';
             passwordInp.required = true;
         } else {
@@ -155,7 +173,7 @@
             pwdHint.textContent    = '(déjala en blanco para no cambiarla)';
             userId.value = data.id;
             usernameInp.value = data.username || '';
-            empresaInp.value = data.empresa || '';
+            empresaSel.value = data.empresaId || '';
             passwordInp.value = '';
             passwordInp.required = false;
         }
@@ -170,7 +188,7 @@
     }
 
     function rowTemplate(u) {
-        // seguridad: no mostrar contraseña
+        // 'empresa' ya es NOMBRE (string) devuelto por el backend; también mandamos empresaId
         const safe = (v) => (v ?? '').toString();
         return `
         <tr id="row-${u.id}">
@@ -182,7 +200,8 @@
               <button class="btn-edit inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border text-gray-700 hover:bg-gray-50"
                       data-id="${safe(u.id)}"
                       data-username="${safe(u.username)}"
-                      data-empresa="${safe(u.empresa)}">Editar</button>
+                      data-empresa-id="${safe(u.empresaId)}"
+                      data-empresa-nombre="${safe(u.empresa)}">Editar</button>
               <button class="btn-delete inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700"
                       data-id="${safe(u.id)}">Eliminar</button>
             </div>
@@ -192,7 +211,7 @@
     }
 
     function upsertRow(u) {
-        const existing = $(`#row-${u.id}`);
+        const existing = document.getElementById(`row-${u.id}`);
         const html = rowTemplate(u);
         if (existing) {
             existing.outerHTML = html;
@@ -204,7 +223,7 @@
     async function createUser(fd) {
         const res = await fetch('/User', {
             method: 'POST',
-            headers: { [csrfHeader]: csrfToken },
+            headers: csrfToken ? { [csrfHeader]: csrfToken } : {},
             body: fd
         });
         if (!res.ok) {
@@ -217,7 +236,7 @@
     async function updateUser(id, fd) {
         const res = await fetch(`/User/${id}`, {
             method: 'PUT',
-            headers: { [csrfHeader]: csrfToken },
+            headers: csrfToken ? { [csrfHeader]: csrfToken } : {},
             body: fd
         });
         if (!res.ok) {
@@ -230,7 +249,7 @@
     async function deleteUser(id) {
         const res = await fetch(`/User/${id}`, {
             method: 'DELETE',
-            headers: { [csrfHeader]: csrfToken }
+            headers: csrfToken ? { [csrfHeader]: csrfToken } : {}
         });
         if (!res.ok) {
             const msg = await res.text().catch(() => 'Error al eliminar');
@@ -240,9 +259,9 @@
     }
 
     // ===== Listeners =====
-    $('#btnOpenCreate').addEventListener('click', () => openModal('create'));
-    $('#btnCloseModal').addEventListener('click', closeModal);
-    $('#btnCancel').addEventListener('click', closeModal);
+    document.getElementById('btnOpenCreate').addEventListener('click', () => openModal('create'));
+    document.getElementById('btnCloseModal').addEventListener('click', closeModal);
+    document.getElementById('btnCancel').addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
     // Submit crear/editar (sin recargar)
@@ -251,7 +270,7 @@
         try {
             const fd = new FormData(form);
 
-            // En modo editar, si password vacío, NO enviarlo (para que @ModelAttribute llegue null y el backend lo ignore)
+            // En modo editar, si password vacío, NO enviarlo
             if (mode === 'edit' && !passwordInp.value) {
                 fd.delete('password');
             }
@@ -284,7 +303,7 @@
             const data = {
                 id: editBtn.dataset.id,
                 username: editBtn.dataset.username,
-                empresa: editBtn.dataset.empresa
+                empresaId: editBtn.dataset.empresaId || ''
             };
             openModal('edit', data);
             return;

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario genérico</title>
+
+    <!-- Tailwind CDN (for quick styling; in production compile locally) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- CSRF tokens (if Spring Security CSRF is enabled) -->
+    <meta th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:content="${_csrf.token}" />
+    <meta th:if="${_csrf != null}" name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+    <header class="max-w-6xl mx-auto px-4 py-6">
+        <div class="flex items-center justify-between">
+            <h1 class="text-2xl font-bold">Formulario genérico</h1>
+            <a th:href="@{/}" class="text-sm text-gray-600 hover:underline">Volver</a>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4">
+        <div class="bg-white rounded-2xl shadow p-6">
+            <p class="text-sm text-gray-600 mb-4">Use this form for general reports or cases. Adjust fields to fit your
+                needs.</p>
+
+            <form method="post" th:action="@{/formulario-caso}" class="space-y-4">
+                <!-- Example: subject -->
+                <div>
+                    <label class="block text-sm font-medium mb-1" for="subject">Asunto</label>
+                    <input id="subject" name="subject" type="text" required
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500 px-3 py-2" />
+                </div>
+
+                <!-- Example: description -->
+                <div>
+                    <label class="block text-sm font-medium mb-1" for="description">Descripción</label>
+                    <textarea id="description" name="description" rows="6"
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
+                        placeholder="Describe the issue or details here..."></textarea>
+                </div>
+
+                <!-- Optional attachments (visual only) -->
+                <div>
+                    <label class="block text-sm font-medium mb-1">Adjuntos (opcional)</label>
+                    <input type="file" name="attachments" class="block w-full text-sm text-gray-600" />
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-2">
+                    <a th:href="@{/}" class="px-4 py-2 rounded-xl border hover:bg-gray-50">Cancelar</a>
+                    <button type="submit"
+                        class="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+</body>
+
+</html>

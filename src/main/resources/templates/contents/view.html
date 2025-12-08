@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${page.title}">Content</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:content="${_csrf.token}"/>
+    <meta th:if="${_csrf != null}" name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body class="bg-gray-50 text-gray-900">
+<header class="max-w-6xl mx-auto px-4 py-6">
+    <nav class="bg-white shadow-md border-gray-200 fixed w-full top-0 left-0 z-50">
+        <div class="max-w-screen-xl flex items-center justify-between mx-auto p-4">
+            <a th:href="@{/}" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="/img/HTS-10.png" class="h-8" alt="HTS Logo" />
+            </a>
+            <div class="hidden md:block">
+                <ul class="font-medium flex flex-row space-x-8">
+                    <li><a th:href="@{/}" class="block py-2 px-3 text-[#c1272d] hover:text-red-600 transition-colors">Home</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 pt-28">
+    <article class="bg-white rounded-2xl shadow p-6 prose max-w-none">
+        <header class="mb-4">
+            <h1 class="text-2xl font-semibold text-[#c1272d]" th:text="${page.title}">Title</h1>
+        </header>
+        <div th:utext="${page.content}">Content HTML</div>
+    </article>
+</main>
+<!-- add extra bottom padding so footer doesn't touch the card -->
+<div class="pb-24"></div>
+
+<footer class="bg-white border-t-4" style="border-color:#c1272d;">
+    <div class="max-w-screen-xl mx-auto px-6 md:px-12 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="col-span-1">
+                <div class="flex items-center gap-3">
+                    <img src="img/HTS-10.png" alt="HTS Logo" class="h-9">
+                </div>
+                <p class="text-gray-600 mt-4">Consultoría y soporte IT. Monitoreo, seguridad y soluciones para tu empresa.</p>
+            </div>
+            <div>
+                <h4 class="text-[#c1272d] font-semibold mb-4">Enlaces</h4>
+                <ul class="space-y-2 text-gray-700">
+                    <li><a href="#inicio" class="hover:text-[#c1272d] transition-colors duration-300">Inicio</a></li>
+                    <li><a href="#servicios" class="hover:text-[#c1272d] transition-colors duration-300">Servicios</a></li>
+                    <li><a href="#monitoreo" class="hover:text-[#c1272d] transition-colors duration-300">Estado de servicios</a></li>
+                    <li><a href="#contacto" class="hover:text-[#c1272d] transition-colors duration-300">Contacto</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[#c1272d] font-semibold mb-4">Contacto</h4>
+                <ul class="space-y-2 text-gray-700">
+                    <li>Oficina: <span class="font-medium">809-226-1628</span></li>
+                    <li>Email: <a href="mailto:info@hts.com" class="hover:text-[#c1272d] transition-colors duration-300">info@hts.com</a></li>
+                    <li>Dirección: Santo Domingo, RD</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t mt-10 pt-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-600">
+                <p>© <span id="year"></span> HTS. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

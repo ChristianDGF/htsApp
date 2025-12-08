@@ -25,7 +25,9 @@ public class WebSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/img/**").permitAll()
-                        .requestMatchers("/**").authenticated()  // allow all endpoints
+                        .requestMatchers("/contents/**").permitAll() // public content pages
+                        .requestMatchers("/admin/**").hasRole("ADMIN") // admin-only endpoints
+                        .requestMatchers("/**").authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${page.id} == null ? 'Create content' : 'Edit content'">Formulario de Articulos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:content="${_csrf.token}"/>
+    <meta th:if="${_csrf != null}" name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body class="bg-gray-50 text-gray-900">
+<header class="max-w-6xl mx-auto px-4 py-6">
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold" th:text="${page.id} == null ? 'Create content' : 'Edit content'">Articulos</h1>
+        <a th:href="@{/admin/contents}" class="px-3 py-2 rounded-lg border hover:bg-gray-100">Back</a>
+    </div>
+</header>
+
+<main class="max-w-4xl mx-auto px-4">
+    <div class="bg-white rounded-2xl shadow p-6">
+        <form th:object="${page}" th:action="${page.id} == null ? @{/admin/contents} : @{/admin/contents/{id}(id=${page.id})}" method="post" class="space-y-4">
+            <div th:if="${error != null}" class="mb-4">
+                <div class="rounded-lg bg-red-50 border border-red-200 text-red-800 p-3 text-sm" th:text="${error}"></div>
+            </div>
+
+            <input type="hidden" th:field="*{id}" />
+
+            <div>
+                <label class="block text-sm font-medium mb-1">Titulo</label>
+                <input type="text" th:field="*{title}" required
+                       class="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 px-3 py-2" />
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium mb-1">Slug</label>
+                <input type="text" th:field="*{slug}"
+                       class="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 px-3 py-2" />
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium mb-1">Contenido</label>
+                <textarea th:field="*{content}" rows="12"
+                          class="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 px-3 py-2"></textarea>
+                <p class="text-xs text-gray-500 mt-1">You can use HTML. Sanitize inputs if needed.</p>
+            </div>
+
+            <div class="flex items-center justify-end gap-2 pt-2">
+                <a th:href="@{/admin/contents}" class="px-4 py-2 rounded-xl border hover:bg-gray-50">Cancel</a>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700" th:text="${page.id} == null ? 'Create' : 'Save'">Save</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

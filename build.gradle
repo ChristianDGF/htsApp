@@ -25,6 +25,10 @@ repositories {
 }
 
 dependencies {
+
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'  // Main MapStruct dependency
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'  // For annotation processing
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -35,6 +39,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'com.fasterxml:classmate:1.6.0'
 }
 
 tasks.named('test') {

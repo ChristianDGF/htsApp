@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Content Pages</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:content="${_csrf.token}"/>
+    <meta th:if="${_csrf != null}" name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body class="bg-gray-50 text-gray-900">
+<header class="max-w-6xl mx-auto px-4 py-6">
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold">Articulos</h1>
+        <div class="flex items-center gap-3">
+            <a th:href="@{/admin/contents/new}" class="inline-flex items-center gap-2 rounded-xl bg-indigo-600 text-white px-4 py-2 shadow hover:bg-indigo-700">New page</a>
+            <a th:href="@{/}" class="px-3 py-2 rounded-lg border hover:bg-gray-100">Back</a>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4">
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider">ID</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider">Title</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider">Slug</th>
+                    <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider">Actions</th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                <tr th:each="p : ${pages}" th:id="${'row-' + p.id}">
+                    <td class="px-4 py-3 font-mono text-sm" th:text="${p.id}">1</td>
+                    <td class="px-4 py-3" th:text="${p.title}">Title</td>
+                    <td class="px-4 py-3 text-sm text-gray-600" th:text="${p.slug}">slug</td>
+                    <td class="px-4 py-3">
+                        <div class="flex items-center gap-2 justify-end">
+                            <a th:href="@{|/contents/${p.slug}|}" class="px-3 py-1.5 rounded-lg border text-gray-700 hover:bg-gray-50">Ver</a>
+                            <a th:href="@{|/admin/contents/${p.id}/edit|}" class="px-3 py-1.5 rounded-lg border text-gray-700 hover:bg-gray-50">Editar</a>
+                            <form th:action="@{|/admin/contents/${p.id}/delete|}" method="post" th:object="${p}" onsubmit="return confirm('Delete this page?');">
+                                <input type="hidden" name="_method" value="delete" />
+                                <button type="submit" class="px-3 py-1.5 rounded-lg bg-red-600 text-white hover:bg-red-700">Borrar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

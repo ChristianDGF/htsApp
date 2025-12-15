@@ -17,11 +17,15 @@
 <header class="max-w-6xl mx-auto px-4 py-6">
     <div class="flex items-center justify-between">
         <h1 class="text-2xl font-bold">Gestión de Usuarios</h1>
+        <div class="flex items-center gap-4">
         <button id="btnOpenCreate"
                 class="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 shadow">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>
             Nuevo usuario
         </button>
+        <a th:href="@{/}" class="px-3 py-2 rounded-lg border hover:bg-gray-100">Home</a>
+        <a th:href="@{/logout}" class="px-3 py-2 rounded-lg border hover:bg-gray-100">Logout</a>
+        </div>
     </div>
 </header>
 
@@ -90,14 +94,14 @@
             <div>
                 <label class="block text-sm font-medium mb-1" for="username">Usuario (correo)</label>
                 <input id="username" name="username" type="email" required
-                       class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500" />
+                       class="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#c1272d] focus:border-[#c1272d] px-3 py-2" />
             </div>
 
             <!-- REEMPLAZADO: input texto por SELECT que envía empresaId -->
             <div>
                 <label class="block text-sm font-medium mb-1" for="empresaId">Empresa</label>
                 <select id="empresaId" name="empresaId"
-                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                        class="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#c1272d] focus:border-[#c1272d] px-3 py-2">
                     <option value="">— Sin empresa —</option>
                     <option th:each="e : ${empresas}"
                             th:value="${e.id}"
@@ -110,7 +114,7 @@
                     <span id="pwdHint" class="text-xs text-gray-500">(requerida al crear, opcional al editar)</span>
                 </label>
                 <input id="password" name="password" type="password"
-                       class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500" />
+                       class="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#c1272d] focus:border-[#c1272d] px-3 py-2" />
             </div>
 
             <div class="flex items-center justify-end gap-2 pt-2">

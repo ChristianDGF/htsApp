@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard</title>
+    <title>Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <meta th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:content="${_csrf.token}" />
     <meta th:if="${_csrf != null}" name="_csrf_header" th:content="${_csrf.headerName}" />
@@ -51,7 +51,7 @@
                 <h2 class="text-lg font-semibold">Acciones Rapidas</h2>
                 <div class="mt-4 flex flex-wrap gap-3">
                     <a th:href="@{/User}"
-                        class="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700">Users</a>
+                        class="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700">Usuarios</a>
                     <a th:href="@{/Empresa}"
                         class="px-4 py-2 rounded-xl bg-green-600 text-white hover:bg-green-700">Empresas</a>
                     <a th:href="@{/admin/contents/new}"

@@ -1,63 +1,110 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Formulario genérico</title>
-
-    <!-- Tailwind CDN (for quick styling; in production compile locally) -->
+    <title>Congelados Express</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- CSRF tokens (if Spring Security CSRF is enabled) -->
-    <meta th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:content="${_csrf.token}" />
-    <meta th:if="${_csrf != null}" name="_csrf_header" th:content="${_csrf.headerName}" />
+    <link rel="icon" type="image/png" href="img/HTS-10.png" />
 </head>
+<body class="bg-gray-50">
 
-<body class="bg-gray-50 text-gray-900">
-    <header class="max-w-6xl mx-auto px-4 py-6">
-        <div class="flex items-center justify-between">
-            <h1 class="text-2xl font-bold">Formulario genérico</h1>
-            <a th:href="@{/}" class="text-sm text-gray-600 hover:underline">Volver</a>
+<!-- NAVBAR -->
+<nav class="bg-white shadow-md border-gray-200 fixed w-full top-0 left-0 z-50">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="img/HTS-10.png" class="h-8" alt="HTS Logo" />
+        </a>
+
+        <button data-collapse-toggle="navbar-default" type="button"
+                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg
+                   md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200
+                   transition-colors duration-200"
+                aria-controls="navbar-default" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M1 1h15M1 7h15M1 13h15"/>
+            </svg>
+        </button>
+
+        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+            <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg
+                 bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
+                <li><a href="/formulario-caso"   class="block py-2 px-3 text-[#c1272d] md:p-0 hover:text-red-600 transition-colors duration-300">Crea tu Caso</a></li>
+                <li><a href="/contents"   class="block py-2 px-3 text-[#c1272d] md:p-0 hover:text-red-600 transition-colors duration-300">Articulos de Conocimiento</a></li>
+                <li><a href="encuesta"   class="block py-2 px-3 text-[#c1272d] md:p-0 hover:text-red-600 transition-colors duration-300">Encuesta</a></li>
+            </ul>
         </div>
-    </header>
+    </div>
+</nav>
 
-    <main class="max-w-3xl mx-auto px-4">
-        <div class="bg-white rounded-2xl shadow p-6">
-            <p class="text-sm text-gray-600 mb-4">Use this form for general reports or cases. Adjust fields to fit your
-                needs.</p>
-
-            <form method="post" th:action="@{/formulario-caso}" class="space-y-4">
-                <!-- Example: subject -->
-                <div>
-                    <label class="block text-sm font-medium mb-1" for="subject">Asunto</label>
-                    <input id="subject" name="subject" type="text" required
-                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500 px-3 py-2" />
-                </div>
-
-                <!-- Example: description -->
-                <div>
-                    <label class="block text-sm font-medium mb-1" for="description">Descripción</label>
-                    <textarea id="description" name="description" rows="6"
-                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
-                        placeholder="Describe the issue or details here..."></textarea>
-                </div>
-
-                <!-- Optional attachments (visual only) -->
-                <div>
-                    <label class="block text-sm font-medium mb-1">Adjuntos (opcional)</label>
-                    <input type="file" name="attachments" class="block w-full text-sm text-gray-600" />
-                </div>
-
-                <div class="flex items-center justify-end gap-2 pt-2">
-                    <a th:href="@{/}" class="px-4 py-2 rounded-xl border hover:bg-gray-50">Cancelar</a>
-                    <button type="submit"
-                        class="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700">Enviar</button>
-                </div>
-            </form>
+<!-- NUEVA SECCIÓN: CREA TU CASO (IFRAME) -->
+<section id="crear-caso" class="bg-gray-50 py-16">
+    <div class="max-w-screen-xl mx-auto px-6 py-8 md:px-12">
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-md p-6">
+            <h4 class="text-[#c1272d] font-semibold mb-4 text-center">Formulario de creación de caso</h4>
+            <div class="w-full h-[820px] md:h-[900px] rounded-lg overflow-hidden shadow-inner">
+                <!-- AQUÍ VA TU OTRA VISTA / FORMULARIO COMO IFRAME -->
+                <!-- Ajusta el src a la ruta real donde publiques ese HTML -->
+                <iframe
+                        src="https://forms.office.com/Pages/ResponsePage.aspx?id=Mjp2GCFNwEaaUZXaQqFU_JIeVk6DjZJEuiwrS7wW88lUNkpPWjY0VDcwMjk0SU5YT0tORlBWRjQ5TS4u&embed=true"
+                        title="Crear caso - Dashboard Clientes"
+                        class="w-full h-full"
+                        frameborder="0"
+                        loading="lazy"
+                        referrerpolicy="no-referrer"
+                        allowfullscreen>
+                </iframe>
+            </div>
         </div>
-    </main>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-white border-t-4" style="border-color:#c1272d;">
+    <div class="max-w-screen-xl mx-auto px-6 md:px-12 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="col-span-1">
+                <div class="flex items-center gap-3">
+                    <img src="img/HTS-10.png" alt="HTS Logo" class="h-9">
+                </div>
+                <p class="text-gray-600 mt-4">Consultoría y soporte IT. Monitoreo, seguridad y soluciones para tu empresa.</p>
+            </div>
+            <div>
+                <h4 class="text-[#c1272d] font-semibold mb-4">Enlaces</h4>
+                <ul class="space-y-2 text-gray-700">
+                    <li><a href="#inicio" class="hover:text-[#c1272d] transition-colors duration-300">Inicio</a></li>
+                    <li><a href="#servicios" class="hover:text-[#c1272d] transition-colors duration-300">Servicios</a></li>
+                    <li><a href="#monitoreo" class="hover:text-[#c1272d] transition-colors duration-300">Estado de servicios</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[#c1272d] font-semibold mb-4">Contacto</h4>
+                <ul class="space-y-2 text-gray-700">
+                    <li>Oficina: <span class="font-medium">809-226-1628</span></li>
+                    <li>Email: <a href="mailto:info@hts.com" class="hover:text-[#c1272d] transition-colors duration-300">info@hts.com</a></li>
+                    <li>Dirección: Jardín Plaza, Av. 27 de Febrero, Santiago de los Caballeros 51000</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t mt-10 pt-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-600">
+                <p>© <span id="year"></span> HTS. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Año automático
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Toggle menú móvil
+    const toggleBtn = document.querySelector('[data-collapse-toggle]');
+    const navMenu = document.getElementById('navbar-default');
+    toggleBtn.addEventListener('click', () => navMenu.classList.toggle('hidden'));
+</script>
 
 </body>
-
 </html>

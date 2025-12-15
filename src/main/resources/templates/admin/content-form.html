@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title th:text="${page.id} == null ? 'Create content' : 'Edit content'">Formulario de Articulos</title>
+    <title th:text="${page.id} == null ? 'Crear Articulo' : 'Editar Articulo'">Formulario de Articulos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <meta th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:content="${_csrf.token}"/>
     <meta th:if="${_csrf != null}" name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -11,8 +11,11 @@
 <body class="bg-gray-50 text-gray-900">
 <header class="max-w-6xl mx-auto px-4 py-6">
     <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-bold" th:text="${page.id} == null ? 'Create content' : 'Edit content'">Articulos</h1>
-        <a th:href="@{/admin/contents}" class="px-3 py-2 rounded-lg border hover:bg-gray-100">Back</a>
+        <h1 class="text-2xl font-bold" th:text="${page.id} == null ? 'Crear Articulo' : 'Editar Articulo'">Articulos</h1>
+        <div class="flex items-center gap-4">
+        <a th:href="@{/admin/contents}" class="px-3 py-2 rounded-lg border hover:bg-gray-100">Volver</a>
+        <a th:href="@{/logout}" class="px-3 py-2 rounded-lg border hover:bg-gray-100">Logout</a>
+        </div>
     </div>
 </header>
 
@@ -25,22 +28,25 @@
 
             <input type="hidden" th:field="*{id}" />
 
+            <!-- CSRF token for Spring Security -->
+            <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
             <div>
                 <label class="block text-sm font-medium mb-1">Titulo</label>
                 <input type="text" th:field="*{title}" required
-                       class="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 px-3 py-2" />
+                       class="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#c1272d] focus:border-[#c1272d] px-3 py-2" />
             </div>
 
             <div>
                 <label class="block text-sm font-medium mb-1">Slug</label>
                 <input type="text" th:field="*{slug}"
-                       class="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 px-3 py-2" />
+                       class="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#c1272d] focus:border-[#c1272d] px-3 py-2" />
             </div>
 
             <div>
                 <label class="block text-sm font-medium mb-1">Contenido</label>
                 <textarea th:field="*{content}" rows="12"
-                          class="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 px-3 py-2"></textarea>
+                          class="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#c1272d] focus:border-[#c1272d] px-3 py-2"></textarea>
                 <p class="text-xs text-gray-500 mt-1">You can use HTML. Sanitize inputs if needed.</p>
             </div>
 
